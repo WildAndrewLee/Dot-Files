@@ -30,17 +30,33 @@ set nowb
 set noswapfile
 set ai
 set si
-set wrap
+set wrap linebreak nolist
+set breakindent
 set laststatus=2
-set statusline=%{fugitive#statusline()}\ \ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ %l
+set statusline=%F\ Line:\ %l
 set nu
 set tabstop=4
+set smartindent
+set shiftwidth=4
 set list
 set listchars=tab:\|\ 
 set runtimepath^=~/.vim/bundle/ctrlp.vim
+set splitbelow
+set splitright
 
-" Auto write new files
-:autocmd BufNewFile * :write
+" Get my terminal pls
+
+let g:ConqueTerm_ReadUnfocused = 1
+
+function SetTerminal()
+	sp
+	resize -20
+	ConqueTerm bash
+	wincmd k
+endfunction
+
+command CreateShell call SetTerminal()
+cabbrev shell ConqueTerm bash
 
 " Control P
 
@@ -79,11 +95,22 @@ imap <C-v> <C-o><C-v>
 
 let g:nerdtree_tabs_open_on_console_startup=1
 let g:NERDTreeShowHidden=1
-:let g:NERDTreeWinSize=37
+let g:NERDTreeWinSize=40
+
+" Tagbar
+
+let g:tagbar_width=50
 
 " Great syntax
 
 let g:syntastic_always_populate_loc_list = 1
+
+" Gundo
+
+nnoremap <F5> :GundoToggle<CR>
+let g:gundo_width=80
+let g:gundo_preview_height=20
+let g:gundo_right=1
 
 " Faster navigation
 
@@ -139,6 +166,7 @@ nmap <C-w> :q!<CR>
 imap <C-w> <C-O>:q!<CR>
 nmap <C-a> :%y+<CR>
 imap <C-a> <C-O>:%y+<CR>
+nnoremap <space> :noh<CR>
 
 " Windows pls
 
@@ -293,3 +321,7 @@ if has('persistent_undo')
   set undodir=~/.vim/undos/$USER/
   set undofile
 endif
+
+" Automatically resize vertical splits.
+:au WinEnter * :set winfixheight
+:au WinEnter * :wincmd =
