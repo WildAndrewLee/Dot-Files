@@ -1,5 +1,5 @@
 # commands to ignore
-cmdignore=(htop tmux top vim ncmpcpp man ssh)
+cmdignore=(htop tmux top vim ncmpcpp man ssh urxvt)
 
 # set gt 0 to enable GNU units for time results
 gnuunits=0

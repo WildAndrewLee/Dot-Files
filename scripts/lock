@@ -1,0 +1,11 @@
+#!/bin/bash
+scrot /tmp/screen.png
+
+cat_dir="$HOME/assets/cats/"
+rand_cat="$(ls $cat_dir | sort -R | tail -1)"
+rand_cat="$cat_dir$rand_cat"
+
+convert /tmp/screen.png -scale 10% -scale 1000% /tmp/screen.png
+convert /tmp/screen.png $rand_cat -gravity center -composite /tmp/screen.png
+i3lock -u -i /tmp/screen.png
+rm /tmp/screen.png

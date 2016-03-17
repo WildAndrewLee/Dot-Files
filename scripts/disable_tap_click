@@ -1,0 +1,3 @@
+#!/bin/bash
+synclient MaxTapTime=0
+
