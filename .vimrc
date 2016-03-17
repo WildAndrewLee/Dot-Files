@@ -1,4 +1,3 @@
-set mouse-=a
 syntax on
 set history=700
 set autoread
@@ -35,51 +34,33 @@ set breakindent
 set laststatus=2
 set statusline=%F\ Line:\ %l
 set nu
+set expandtab
 set tabstop=4
+set softtabstop=4
 set smartindent
 set shiftwidth=4
 set list
-set listchars=tab:\|\ 
+set listchars=tab:\|\
 set runtimepath^=~/.vim/bundle/ctrlp.vim
 set splitbelow
 set splitright
 
-" Get my terminal pls
-
-let g:ConqueTerm_ReadUnfocused = 1
-
-function SetTerminal()
-	sp
-	resize -20
-	ConqueTerm bash
-	wincmd k
-endfunction
-
-command CreateShell call SetTerminal()
-cabbrev shell ConqueTerm bash
-
-" Control P
-
-let g:ctrlp_map='<c-p>'
-
-let g:ctrlp_extensions = ['tag', 'buffertag', 'quickfix', 'dir', 'rtscript',
-                          \ 'undo', 'line', 'changes', 'mixed', 'bookmarkdir']
-
-nnoremap <C-r> :CtrlPTag<CR>
-imap <C-r> <C-o>:CtrlPTag<CR>
-
-let g:ctrlp_cache_dir = $HOME . '/.cache/ctrlp'
-if executable('ag')
-  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-endif
-
-" CTags
-
-au BufWritePost *.py,*.c,*.cpp,*.h silent! !eval 'ctags -R -o newtags; mv newtags tags' &
-
-" Pathogen
-
 execute pathogen#infect()
+
+" CTRL-P
+set runtimepath^=~/.vim/bundle/ctrlp.vim
+
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_cmd = 'CtrlP'
+
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip     " MacOSX/Linux
+set wildignore+=*\\tmp\\*,*.swp,*.zip,*.exe  " Windows
+
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\v[\/]\.(git|hg|svn)$',
+  \ 'file': '\v\.(exe|so|dll)$',
+  \ 'link': 'some_bad_symbolic_links',
+  \ }
 
 " Filetype Plugins
 
@@ -90,29 +71,6 @@ filetype indent on
 
 nmap <C-v> :put+<CR>
 imap <C-v> <C-o><C-v>
-
-" Nerd tree tabs
-
-let g:nerdtree_tabs_open_on_console_startup=1
-let g:NERDTreeShowHidden=1
-let g:NERDTreeWinSize=40
-
-" Tagbar
-
-let g:tagbar_width=50
-
-" Great syntax
-
-let g:syntastic_always_populate_loc_list = 1
-
-" Gundo
-
-nnoremap <F5> :GundoToggle<CR>
-let g:gundo_width=80
-let g:gundo_preview_height=20
-let g:gundo_right=1
-
-" Faster navigation
 
 set so=7
 nmap <silent> <A-Up> :wincmd k<CR>
@@ -134,9 +92,9 @@ set viminfo^=%
 
 " Delete trailing whitespace on save
 func! DeleteTrailingWS()
-	exe "normal mz"
-	%s/\s\+$//ge
-	exe "normal `z"
+    exe "normal mz"
+    %s/\s\+$//ge
+    exe "normal `z"
 endfunc
 autocmd BufWrite *.py :call DeleteTrailingWS()
 autocmd BufWrite *.coffee :call DeleteTrailingWS()
@@ -168,10 +126,6 @@ nmap <C-a> :%y+<CR>
 imap <C-a> <C-O>:%y+<CR>
 nnoremap <space> :noh<CR>
 
-" Windows pls
-
-noremap <Leader>m mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm
-
 " Redo things after close
 
 try
@@ -179,25 +133,6 @@ try
     set undofile
 catch
 endtry
-
-" Auto-complete pls
-
-"vnoremap $1 <esc>`>a)<esc>`<i(<esc>
-"vnoremap $2 <esc>`>a]<esc>`<i[<esc>
-"vnoremap $3 <esc>`>a}<esc>`<i{<esc>
-"vnoremap $$ <esc>`>a"<esc>`<i"<esc>
-"vnoremap $q <esc>`>a'<esc>`<i'<esc>
-"vnoremap $e <esc>`>a"<esc>`<i"<esc>
-
-" Map auto complete of (, ", ', [
-
-"inoremap $1 ()<esc>i
-"inoremap $2 []<esc>i
-"inoremap $3 {}<esc>i
-"inoremap $4 {<esc>o}<esc>O
-"inoremap $q ''<esc>i
-"inoremap $e ""<esc>i
-"inoremap $t <><esc>i
 
 " Helpers from ultimate vim config
 
@@ -264,35 +199,8 @@ endfunction
 
 " Colors
 
-colorscheme molokai
+colorscheme jellybeans
 let g:rehash256 = 1
-highlight Normal ctermbg=235 ctermfg=15
-highlight SyntasticErrorSign ctermfg=white ctermbg=160
-highlight cBraces ctermfg=15
-highlight cDelimiter ctermfg=15
-highlight MatchParen ctermfg=15 ctermbg=243
-highlight LineNr ctermfg=240 ctermbg=235
-highlight Type ctermfg=81
-highlight Identifier ctermfg=113
-highlight Function ctermfg=113
-highlight Keyword ctermfg=197
-highlight Constant ctermfg=141
-highlight String ctermfg=141
-highlight SpecialChar ctermfg=141
-highlight Literal ctermfg=141
-highlight Comment ctermfg=242
-highlight cErrInParen ctermbg=235
-highlight cStatement ctermfg=197
-highlight cInclude ctermfg=197
-highlight cIncluded ctermfg=228
-highlight NERDTreeCWD ctermfg=15
-highlight CursorLine ctermbg=236
-highlight CursorLineNr ctermfg=15 ctermbg=238
-highlight SpecialKey ctermfg=237
-highlight Statement ctermfg=197
-highlight Error ctermfg=15 ctermbg=235
-highlight NERDTreeExecFile ctermfg=15
-highlight Visual ctermbg=236
 
 map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
 \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
@@ -312,7 +220,7 @@ set guioptions-=L  "remove left-hand scroll bar
 " Resize splits when the window is resized
 au VimResized * :wincmd =
 
-" Persistent undo                                                           
+" Persistent undo
 if has('persistent_undo')
   let undodir = expand("~/.vim/undos/$USER")
   if !isdirectory(undodir)
@@ -325,3 +233,6 @@ endif
 " Automatically resize vertical splits.
 :au WinEnter * :set winfixheight
 :au WinEnter * :wincmd =
+
+let g:airline_powerline_fonts = 1
+let g:airline_theme="jellybeans"
