@@ -1,3 +1,18 @@
 #!/bin/bash
 NAME=$(echo $1 | sed "s/.tex//")
-pdflatex -halt-on-error $1 1> /dev/null && find -name "$NAME.aux" -delete && find -name "$NAME.log" -delete && find -name "texput.log" -delete
+pdflatex -halt-on-error $1 1> /dev/null 
+
+if [ -e "$NAME.log" ]
+then
+    rm "$NAME.log"
+fi
+
+if [ -e "$NAME.aux" ]
+then
+    rm "$NAME.aux"
+fi
+
+if [ -e "texput.log" ]
+then
+    rm "texput.log"
+fi
